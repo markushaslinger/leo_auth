@@ -10,6 +10,7 @@ jobs:
     
     env:
       BUILD_CONFIG: 'Release'
+      NUGET_DIR: ${{github.workspace}}/nupkgs
 
     runs-on: ubuntu-latest
 
@@ -28,12 +29,13 @@ jobs:
       - name: Create Package Directory
         run: mkdir nupkgs
       - name: Pack
-        run: dotnet pack --no-build --include-symbols --output ${{github.workspace}}/nupkgs
+        run: dotnet pack --no-build --include-symbols --output ${{env.NUGET_DIR}}
       - name: Publish
-        run: nuget push ${{github.workspace}}/nupkgs/*.nupkg -Source 'https://api.nuget.org/v3/index.json' -ApiKey ${{secrets.NUGET_API_KEY}}
+        working-directory: ${{env.NUGET_DIR}}
+        run: dotnet nuget push *.nupkg -s 'https://api.nuget.org/v3/index.json' -k ${{secrets.NUGET_API_KEY}}
       - name: Upload NuGet packages as artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: NuGet packages
-          path: nupkgs/*.nupkg
+          name: NuGet Packages
+          path: ${{env.NUGET_DIR}}/*.nupkg
           retention-days: 1
