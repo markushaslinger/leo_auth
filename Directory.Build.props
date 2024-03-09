@@ -1,7 +1,7 @@
 <Project>
     <PropertyGroup>
         <PackageType>Dependency</PackageType>
-        <PackageVersion>1.0.0-preview2</PackageVersion>
+        <PackageVersion>1.0.0-preview1</PackageVersion>
         <Authors>M. Haslinger</Authors>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageTags>keycloak;HTL-Leonding;auth</PackageTags>

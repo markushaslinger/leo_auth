@@ -3,6 +3,8 @@
     <PropertyGroup>
         <Title>HTL Leonding KeyCloak with LDAP Auth</Title>
         <Description>A utility library for using authentication with HTL Leonding users via the internal KeyCloak instance.</Description>
+        <PackageId>HTLLeonding.Utility.LeoAuth</PackageId>
+        <PackageReadmeFile>readme.md</PackageReadmeFile>
     </PropertyGroup>
     
     <ItemGroup>

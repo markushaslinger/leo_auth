@@ -3,6 +3,8 @@
     <PropertyGroup>
         <Title>HTL Leonding KeyCloak with LDAP Auth - Server</Title>
         <Description>Additional types required at the backend for persistent authentication state.</Description>
+        <PackageId>HTLLeonding.Utility.LeoAuth.Server</PackageId>
+        <PackageReadmeFile>readme.md</PackageReadmeFile>
     </PropertyGroup>
     
     <ItemGroup>
