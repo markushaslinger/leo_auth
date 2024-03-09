@@ -1,0 +1,14 @@
+<Project>
+    <PropertyGroup>
+        <PackageType>Dependency</PackageType>
+        <PackageVersion>1.0.0-preview1</PackageVersion>
+        <Authors>M. Haslinger</Authors>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageTags>keycloak;HTL-Leonding;auth</PackageTags>
+
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    </PropertyGroup>
+</Project>

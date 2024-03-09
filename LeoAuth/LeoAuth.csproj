@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    
+    <PropertyGroup>
+        <Title>HTL Leonding KeyCloak with LDAP Auth</Title>
+        <Description>A utility library for using authentication with HTL Leonding users via the internal KeyCloak instance.</Description>
+    </PropertyGroup>
+    
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="8.0.2" />
+        <PackageReference Include="OneOf" Version="3.0.263" />
+        <PackageReference Include="OneOf.SourceGenerator" Version="3.0.263" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="LeoAuth.Server" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="readme.md" Pack="true" PackagePath="" />
+    </ItemGroup>
+
+</Project>
