@@ -32,6 +32,13 @@ public sealed class LeoUser
     public bool IsStudent => _isStudent ??= _organizationalUnits.Contains("students");
     public bool IsTestUser => _isTestUser ??= _organizationalUnits.Contains("testusers");
 
+    public LeoUserRole Role =>
+        IsStudent || IsTestUser
+            ? LeoUserRole.Student
+            : IsTeacher
+                ? LeoUserRole.Teacher
+                : LeoUserRole.Unknown;
+
     private string DebuggerDisplay
     {
         get
