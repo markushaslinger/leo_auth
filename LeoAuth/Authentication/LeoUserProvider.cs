@@ -33,18 +33,22 @@ public static class LeoUserProvider
 
         var name = ExtractName(relevantClaims.GetValueOrDefault(Const.LastNameClaimType),
                                relevantClaims.GetValueOrDefault(Const.FirstNameClaimType));
-
-        IReadOnlyCollection<LdapEntry>? ldapEntries = null;
-        if (relevantClaims.TryGetValue(Const.LdapEntryClaimType, out var ldapEntryDnClaim))
-        {
-            ldapEntries = ExtractLdapEntries(ldapEntryDnClaim);
-        }
-
-        var ldapInformation = new LdapInformation(ldapEntries ?? [],
+        var ldapInformation = new LdapInformation(GetLdapEntries(),
                                                   relevantClaims.GetValueOrDefault(Const.UserNameClaimType));
 
         return LeoUser.FromLdapInformation(ldapInformation.Username, ldapInformation.OrganizationalUnits,
                                            name, ldapInformation.Department);
+
+        IReadOnlyCollection<LdapEntry> GetLdapEntries()
+        {
+            IReadOnlyCollection<LdapEntry>? ldapEntries = null;
+            if (relevantClaims.TryGetValue(Const.LdapEntryClaimType, out var ldapEntryDnClaim))
+            {
+                ldapEntries = ExtractLdapEntries(ldapEntryDnClaim);
+            }
+            
+            return ldapEntries ?? [];
+        }
     }
 
     public static async ValueTask<OneOf<LeoUser, None>> GetLeoUserInformation(
@@ -105,9 +109,8 @@ public static class LeoUserProvider
         var value = ldapClaim.Value.Trim();
         var entries = value.Split(',');
         var ldapEntries = entries.Select(e => e.Split('='))
-                                 .Where(a => a.Length == 2)
+                                 .Where(a => a.Length == 2 && a.All(s => !string.IsNullOrWhiteSpace(s)))
                                  .Select(a => (Key: a[0].Trim().ToLowerInvariant(), Value: a[1].Trim()))
-                                 .Where(t => !string.IsNullOrWhiteSpace(t.Key) && !string.IsNullOrWhiteSpace(t.Value))
                                  .Select(t =>
                                  {
                                      var key = t.Key switch
@@ -119,8 +122,7 @@ public static class LeoUserProvider
                                                };
 
                                      return new LdapEntry(key, t.Value);
-                                 })
-                                 .ToList();
+                                 }).ToList();
 
         return ldapEntries;
     }
