@@ -19,13 +19,13 @@ internal sealed class SerializableLeoUserWithClaims
     {
         List<RestoredClaim> restoredClaims =
         [
-            new RestoredClaim(Const.LdapEntryClaimType, CreateLdapClaimValue()),
+            new RestoredClaim(Claims.LdapEntryClaimType, CreateLdapClaimValue()),
             .. CreateNameClaims()
         ];
 
         if (Username != string.Empty)
         {
-            restoredClaims.Add(new RestoredClaim(Const.UserNameClaimType, Username));
+            restoredClaims.Add(new RestoredClaim(Claims.UserNameClaimType, Username));
         }
 
         return restoredClaims;
@@ -47,19 +47,19 @@ internal sealed class SerializableLeoUserWithClaims
 
             return name.Match<IEnumerable<RestoredClaim>>(fullName =>
                                                           [
-                                                              new RestoredClaim(Const.FirstNameClaimType,
+                                                              new RestoredClaim(Claims.FirstNameClaimType,
                                                                                 fullName.FirstName),
-                                                              new RestoredClaim(Const.LastNameClaimType,
+                                                              new RestoredClaim(Claims.LastNameClaimType,
                                                                                 fullName.LastName)
                                                           ],
                                                           firstNameOnly =>
                                                           [
-                                                              new RestoredClaim(Const.FirstNameClaimType,
+                                                              new RestoredClaim(Claims.FirstNameClaimType,
                                                                                 firstNameOnly.FirstName)
                                                           ],
                                                           lastNameOnly =>
                                                           [
-                                                              new RestoredClaim(Const.LastNameClaimType,
+                                                              new RestoredClaim(Claims.LastNameClaimType,
                                                                                 lastNameOnly.LastName)
                                                           ],
                                                           _ => []);

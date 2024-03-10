@@ -2,7 +2,7 @@
 
 namespace LeoAuth;
 
-internal static class Const
+internal static class Claims
 {
     public const string UserNameClaimType = "preferred_username";
     public const string LdapEntryClaimType = "LDAP_ENTRY_DN";

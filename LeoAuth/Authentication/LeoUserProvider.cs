@@ -12,10 +12,10 @@ public static class LeoUserProvider
 {
     private static readonly HashSet<string> relevantClaimTypes =
     [
-        Const.UserNameClaimType,
-        Const.LdapEntryClaimType,
-        Const.LastNameClaimType,
-        Const.FirstNameClaimType
+        Claims.UserNameClaimType,
+        Claims.LdapEntryClaimType,
+        Claims.LastNameClaimType,
+        Claims.FirstNameClaimType
     ];
 
     public static OneOf<LeoUser, None> ExtractLeoUserInformation(ClaimsIdentity identity)
@@ -31,10 +31,10 @@ public static class LeoUserProvider
             return new None();
         }
 
-        var name = ExtractName(relevantClaims.GetValueOrDefault(Const.LastNameClaimType),
-                               relevantClaims.GetValueOrDefault(Const.FirstNameClaimType));
+        var name = ExtractName(relevantClaims.GetValueOrDefault(Claims.LastNameClaimType),
+                               relevantClaims.GetValueOrDefault(Claims.FirstNameClaimType));
         var ldapInformation = new LdapInformation(GetLdapEntries(),
-                                                  relevantClaims.GetValueOrDefault(Const.UserNameClaimType));
+                                                  relevantClaims.GetValueOrDefault(Claims.UserNameClaimType));
 
         return LeoUser.FromLdapInformation(ldapInformation.Username, ldapInformation.OrganizationalUnits,
                                            name, ldapInformation.Department);
@@ -42,7 +42,7 @@ public static class LeoUserProvider
         IReadOnlyCollection<LdapEntry> GetLdapEntries()
         {
             IReadOnlyCollection<LdapEntry>? ldapEntries = null;
-            if (relevantClaims.TryGetValue(Const.LdapEntryClaimType, out var ldapEntryDnClaim))
+            if (relevantClaims.TryGetValue(Claims.LdapEntryClaimType, out var ldapEntryDnClaim))
             {
                 ldapEntries = ExtractLdapEntries(ldapEntryDnClaim);
             }
