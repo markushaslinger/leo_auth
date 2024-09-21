@@ -18,7 +18,7 @@ public static class LeoUserProvider
         var relevantClaims = claims
                              .Select(c => (Claim: c, Type: c.Type.Trim()))
                              .Where(t => relevantClaimTypes.Contains(t.Type))
-                             .ToDictionary(t => t.Type, t => t.Claim);
+                             .ToDictionary(t => t.Type, t => t.Claim, StringComparer.OrdinalIgnoreCase);
 
         if (relevantClaims.Count == 0)
         {
