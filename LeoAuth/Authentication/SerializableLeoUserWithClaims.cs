@@ -19,7 +19,7 @@ internal sealed class SerializableLeoUserWithClaims
     {
         List<RestoredClaim> restoredClaims =
         [
-            new RestoredClaim(Claims.LdapEntryClaimType, CreateLdapClaimValue()),
+            new(Claims.LdapEntryClaimType, CreateLdapClaimValue()),
             .. CreateNameClaims()
         ];
 

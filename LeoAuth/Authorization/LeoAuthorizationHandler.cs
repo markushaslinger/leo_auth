@@ -6,9 +6,19 @@ public sealed class LeoAuthorizationHandler : AuthorizationHandler<LeoAuthRequir
 {
     protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, LeoAuthRequirement requirement)
     {
-        var leoUser = context.User.GetLeoUserInformation();
-        leoUser.Switch(user => HandleUserAuth(user, context, requirement),
-                       _ => context.Fail(new AuthorizationFailureReason(this, $"No {nameof(LeoUser)} data available")));
+        try
+        {
+            var leoUser = context.User.GetLeoUserInformation();
+            leoUser.Switch(user => HandleUserAuth(user, context, requirement),
+                           _ =>
+                               context.Fail(new AuthorizationFailureReason(this,
+                                                                           $"No {nameof(LeoUser)} data available")));
+        } 
+        catch (Exception e)
+        {
+            var message = $"Error while handling {nameof(LeoAuthRequirement)}: {e.Message}";
+            context.Fail(new AuthorizationFailureReason(this, message));
+        }
 
         return Task.CompletedTask;
     }
