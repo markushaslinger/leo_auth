@@ -10,13 +10,7 @@ namespace LeoAuth;
 
 public static class LeoUserProvider
 {
-    private static readonly HashSet<string> relevantClaimTypes =
-    [
-        Claims.UserNameClaimType,
-        Claims.LdapEntryClaimType,
-        Claims.LastNameClaimType,
-        Claims.FirstNameClaimType
-    ];
+    private static readonly FrozenSet<string> relevantClaimTypes = CreateRelevantClaimsSet();
 
     public static OneOf<LeoUser, None> ExtractLeoUserInformation(ClaimsIdentity identity)
     {
@@ -46,7 +40,7 @@ public static class LeoUserProvider
             {
                 ldapEntries = ExtractLdapEntries(ldapEntryDnClaim);
             }
-            
+
             return ldapEntries ?? [];
         }
     }
@@ -182,6 +176,19 @@ public static class LeoUserProvider
 
             return new None();
         }
+    }
+    
+    private static FrozenSet<string> CreateRelevantClaimsSet()
+    {
+        IEnumerable<string> claims =
+        [
+            Claims.UserNameClaimType,
+            Claims.LdapEntryClaimType,
+            Claims.LastNameClaimType,
+            Claims.FirstNameClaimType
+        ];
+
+        return claims.ToFrozenSet(StringComparer.OrdinalIgnoreCase);
     }
 
     private sealed record LdapEntry(LdapEntryType Type, string Value);
